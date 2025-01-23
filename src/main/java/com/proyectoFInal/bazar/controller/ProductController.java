@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proyectoFInal.bazar.dto.ProductoDto;
 import com.proyectoFInal.bazar.model.Producto;
 import com.proyectoFInal.bazar.service.ProductoService;
 
 @RestController
 public class ProductController {
-
+    
+	
     @Autowired
     ProductoService producServ;
 
@@ -26,7 +28,7 @@ public class ProductController {
     @GetMapping("/productos")
     public ResponseEntity<?> traerProductos(){
     	ResponseEntity<?> response = producServ.getProductos();
-    	
+
         return response;
     }
 
@@ -35,7 +37,8 @@ public class ProductController {
     public ResponseEntity<?> traerProducto(@PathVariable Long codigoProducto){
 
     	ResponseEntity<?> response = producServ.getProductoId(codigoProducto);
-        return response ;
+    	
+        return response ;          
     }
 
     //Crear producto

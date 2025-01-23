@@ -56,6 +56,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+    <groupId>jakarta.validation</groupId>
+    <artifactId>jakarta.validation-api</artifactId>
+    <version>3.0.2</version> <!-- Asegúrate de que sea compatible con tu versión de Spring -->
+</dependency>
+	<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>             <!-- Última versión -->
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <build>
@@ -77,11 +87,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
+                    <excludes>                        
                     </excludes>
                 </configuration>
             </plugin>

@@ -8,19 +8,21 @@ import lombok.Setter;
 @Entity
 public class Producto {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long codigoProducto;
     private String nombre;
     private String marca;
     private Double costo;
-    private Double cantidad_disponible;
+
+	@Column(name = "cantidad_disponible")
+    private Double cantidadDisponible;
 
 
     public Producto() {
     }
 
     public Producto(Double cantidad_disponible, Double costo, String marca, String nombre, Long codigoProducto) {
-        this.cantidad_disponible = cantidad_disponible;
+        this.cantidadDisponible = cantidad_disponible;
         this.costo = costo;
         this.marca = marca;
         this.nombre = nombre;
@@ -60,11 +62,11 @@ public class Producto {
 	}
 
 	public Double getCantidad_disponible() {
-		return cantidad_disponible;
+		return cantidadDisponible;
 	}
 
 	public void setCantidad_disponible(Double cantidad_disponible) {
-		this.cantidad_disponible = cantidad_disponible;
+		this.cantidadDisponible = cantidad_disponible;
 	}
     
     
