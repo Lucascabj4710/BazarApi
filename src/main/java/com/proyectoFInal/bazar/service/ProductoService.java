@@ -1,5 +1,6 @@
 package com.proyectoFInal.bazar.service;
 
+import com.proyectoFInal.bazar.dto.ProductoDtoRequest;
 import com.proyectoFInal.bazar.model.Producto;
 import com.proyectoFInal.bazar.repository.ProductoRepository;
 
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +30,9 @@ public class ProductoService implements IProductoService {
 		List<Producto> list;
 		
 		try {
-			list= productRepository.findAll();
+			list = productRepository.findAll();
 			if(list.isEmpty()) {
+
 				return new ResponseEntity<String>("No hay productos disponibles", HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
@@ -48,7 +49,14 @@ public class ProductoService implements IProductoService {
 			Optional<Producto> productoBuscado = productRepository.findById(codigoProducto);
 			if(productoBuscado.isPresent()) {
 				log.info("Producto encontrado");
-				return new ResponseEntity<Producto>(productoBuscado.get(), HttpStatus.OK);
+				ProductoDtoRequest producto = ProductoDtoRequest.builder()
+						.nombre(productoBuscado.get().getNombre())
+						.marca(productoBuscado.get().getMarca())
+						.costo(productoBuscado.get().getCosto())
+						.build();
+
+
+				return new ResponseEntity<ProductoDtoRequest>(producto, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.NOT_FOUND);
 			}
@@ -58,14 +66,20 @@ public class ProductoService implements IProductoService {
 	}
 
 	@Override
-	public ResponseEntity<?> altaProducto(Producto producto) {
+	public ResponseEntity<?> altaProducto(ProductoDtoRequest producto) {
 		log.info("Iniciando metodo altaProducto");
+		Producto producto1 = Producto.builder()
+				.nombre(producto.getNombre())
+				.marca(producto.getMarca())
+				.costo(producto.getCosto())
+				.cantidadDisponible(producto.getCantidadDisponible())
+				.build();;
 		try {
-			productRepository.save(producto);
+			productRepository.save(producto1);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+		return new ResponseEntity<Producto>(producto1, HttpStatus.OK);
 	}
 
 	@Override
@@ -87,9 +101,9 @@ public class ProductoService implements IProductoService {
 		return new ResponseEntity<String>("Producto eliminado con exito", HttpStatus.OK);
 	}
 
+
 	@Override
-	public ResponseEntity<?> editarProducto(Producto producto, Long id) {
-		
+	public ResponseEntity<?> editarProducto(ProductoDtoRequest producto, Long id) {
 		try {
 			Optional<Producto> productoBuscado = productRepository.findById(id);
 			if(productoBuscado.isPresent()) {
@@ -100,7 +114,7 @@ public class ProductoService implements IProductoService {
 				productoBuscado.get().setNombre(producto.getNombre());
 				productoBuscado.get().setMarca(producto.getMarca());
 				productoBuscado.get().setCosto(producto.getCosto());			
-				productoBuscado.get().setCantidad_disponible(producto.getCantidad_disponible());
+				productoBuscado.get().setCantidadDisponible(producto.getCantidadDisponible());
 				
 				
 				productRepository.save(productoBuscado.get());

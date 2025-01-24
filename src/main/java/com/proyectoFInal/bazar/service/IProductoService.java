@@ -1,8 +1,6 @@
 package com.proyectoFInal.bazar.service;
 
-import com.proyectoFInal.bazar.model.Producto;
-
-import java.util.List;
+import com.proyectoFInal.bazar.dto.ProductoDtoRequest;
 
 import org.springframework.http.ResponseEntity;
 
@@ -12,10 +10,10 @@ public interface IProductoService {
 
     public ResponseEntity<?> getProductoId(Long codigoProducto);
 
-    public ResponseEntity<?> altaProducto(Producto producto);
+    public ResponseEntity<?> altaProducto(ProductoDtoRequest producto);
 
     public ResponseEntity<?> eliminarProducto(Long id);
 
-    public ResponseEntity<?> editarProducto(Producto producto, Long id);
+    public ResponseEntity<?> editarProducto(ProductoDtoRequest producto, Long id);
 
 }

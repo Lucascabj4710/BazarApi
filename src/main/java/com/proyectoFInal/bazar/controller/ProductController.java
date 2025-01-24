@@ -1,8 +1,7 @@
 package com.proyectoFInal.bazar.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.proyectoFInal.bazar.dto.ProductoDtoRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.proyectoFInal.bazar.dto.ProductoDto;
 import com.proyectoFInal.bazar.model.Producto;
 import com.proyectoFInal.bazar.service.ProductoService;
 
@@ -43,7 +41,7 @@ public class ProductController {
 
     //Crear producto
     @PostMapping("/productos/crear")
-    public String altaProducto(@RequestBody Producto producto){
+    public String altaProducto(@RequestBody @Valid ProductoDtoRequest producto){
 
         producServ.altaProducto(producto);
         return "Producto creado con exito";
@@ -59,7 +57,7 @@ public class ProductController {
 
     //Editar producto
     @PutMapping("/producto/editar/{codigoProducto}")
-    public ResponseEntity<?> editarProducto(@PathVariable Long codigoProducto ,@RequestBody Producto producto){
+    public ResponseEntity<?> editarProducto(@PathVariable Long codigoProducto ,@RequestBody @Valid ProductoDtoRequest producto){
 
     	ResponseEntity<?> response = producServ.editarProducto(producto, codigoProducto);
         return response;
