@@ -3,6 +3,7 @@ package com.proyectoFInal.bazar.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.proyectoFInal.bazar.dto.ClienteDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,11 @@ import org.springframework.http.ResponseEntity;
 
 import com.proyectoFInal.bazar.model.Cliente;
 import com.proyectoFInal.bazar.repository.ClienteRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@Transactional
 public class ClienteService implements IClienteService {
 
 	private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
@@ -21,10 +26,15 @@ public class ClienteService implements IClienteService {
 	private ClienteRepository clienteRepository;
 	
 	@Override
-	public ResponseEntity<?> createClient(Cliente cliente) {
-		log.info("Inicio del metodo crear cliente");
+	public ResponseEntity<?> createClient(ClienteDto cliente) {
+		log.info("Inicio del metodo crear cliente" + cliente.getApellido());
+		Cliente cliente1 = Cliente.builder()
+				.nombre(cliente.getNombre())
+				.apellido(cliente.getApellido())
+				.dni(cliente.getDni())
+				.build();
 		try {
-			clienteRepository.save(cliente);
+			clienteRepository.save(cliente1);
 			return new ResponseEntity<String>("Cliente creado con exito", HttpStatus.CREATED);
 		} catch (DataAccessException e) {
 			return new ResponseEntity<String>("Error al crear cliente", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,6 +46,10 @@ public class ClienteService implements IClienteService {
 		log.info("Inicio del metodo traer clientes");
 		try {			
 			List<Cliente> list = clienteRepository.findAll();
+			if(list.isEmpty()) {
+
+				return new ResponseEntity<String>("No hay clientes registrados", HttpStatus.NO_CONTENT);
+			}
 			return new ResponseEntity<List<Cliente>>(list, HttpStatus.OK);
 		} catch (DataAccessException e) {
 			log.error("Error al recuperar los clientes");
@@ -84,7 +98,7 @@ public class ClienteService implements IClienteService {
 	}
 
 	@Override
-	public ResponseEntity<?> editClientId(Long id, Cliente cliente) {
+	public ResponseEntity<?> editClientId(Long id, ClienteDto cliente) {
 		try {
 			Optional<Cliente> clienteBuscado = clienteRepository.findById(id);
 			if(clienteBuscado.isPresent()) {

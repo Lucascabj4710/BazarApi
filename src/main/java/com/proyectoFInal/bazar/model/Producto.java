@@ -1,13 +1,13 @@
 package com.proyectoFInal.bazar.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.List;
 
-@Entity @Data @Builder
+@AllArgsConstructor @NoArgsConstructor
+@Data @Builder
+@Entity
 public class Producto {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -20,6 +20,4 @@ public class Producto {
     private Double cantidadDisponible;
 
 
-    
-    
 }

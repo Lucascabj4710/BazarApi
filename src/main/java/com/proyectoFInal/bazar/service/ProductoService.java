@@ -53,6 +53,7 @@ public class ProductoService implements IProductoService {
 						.nombre(productoBuscado.get().getNombre())
 						.marca(productoBuscado.get().getMarca())
 						.costo(productoBuscado.get().getCosto())
+						.cantidadDisponible((productoBuscado.get().getCantidadDisponible()))
 						.build();
 
 
@@ -61,7 +62,7 @@ public class ProductoService implements IProductoService {
 				return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

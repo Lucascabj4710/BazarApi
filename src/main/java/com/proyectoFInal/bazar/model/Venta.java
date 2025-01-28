@@ -1,79 +1,41 @@
 package com.proyectoFInal.bazar.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class Venta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo_venta;
-    private LocalDate fecha_venta;
-    private Double total;
+    @Column(name = "id_venta")
+    private Long idVenta;
+    private LocalDate fechaVenta;
+    private double Total;
+
     @ManyToMany(targetEntity = Producto.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "venta_Producto",
-    joinColumns = @JoinColumn(name ="venta_id"),
-    inverseJoinColumns = @JoinColumn(name="producto_id"))
-    private List<Producto> listaProductos;
-    
-    @ManyToOne(targetEntity = Cliente.class)
-    @JoinColumn(name="cliente_id")
-    private Cliente cliente;
+    @JoinTable(name = "ventas_productos", joinColumns = @JoinColumn(name = "venta"),
+    inverseJoinColumns = @JoinColumn(name = "producto"))
+    List<Producto> productos;
 
-    public Venta() {
 
-    }
+    @ManyToOne(targetEntity = Cliente.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Cliente cliente;
 
-    public Venta(Long codigo_venta, LocalDate fecha_venta, Double total, List<Producto> listaProductos, Cliente cliente) {
-        this.codigo_venta = codigo_venta;
-        this.fecha_venta = fecha_venta;
-        this.total = total;
-        this.listaProductos = listaProductos;
+    @Builder
+    public Venta(LocalDate fechaVenta, double Total, List<Producto> productos, Cliente cliente) {
+        this.fechaVenta = fechaVenta;
+        this.Total = Total;
+        this.productos = productos;
         this.cliente = cliente;
     }
 
-	public Long getCodigo_venta() {
-		return codigo_venta;
-	}
-
-	public void setCodigo_venta(Long codigo_venta) {
-		this.codigo_venta = codigo_venta;
-	}
-
-	public LocalDate getFecha_venta() {
-		return fecha_venta;
-	}
-
-	public void setFecha_venta(LocalDate fecha_venta) {
-		this.fecha_venta = fecha_venta;
-	}
-
-	public Double getTotal() {
-		return total;
-	}
-
-	public void setTotal(Double total) {
-		this.total = total;
-	}
-
-	public List<Producto> getListaProductos() {
-		return listaProductos;
-	}
-
-	public void setListaProductos(List<Producto> listaProductos) {
-		this.listaProductos = listaProductos;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-    
-    
 }
