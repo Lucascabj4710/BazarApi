@@ -1,7 +1,6 @@
 package com.proyectoFInal.bazar.controller;
 
 import com.proyectoFInal.bazar.dto.VentaDto;
-import com.proyectoFInal.bazar.model.Venta;
 import com.proyectoFInal.bazar.service.VentaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

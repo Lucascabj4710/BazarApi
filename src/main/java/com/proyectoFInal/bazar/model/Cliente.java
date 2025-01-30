@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-@Data
+@Getter @Setter
 @Entity
 public class Cliente {
     @Id

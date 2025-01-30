@@ -1,6 +1,5 @@
 package com.proyectoFInal.bazar.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +26,7 @@ public class Venta {
     List<Producto> productos;
 
 
-    @ManyToOne(targetEntity = Cliente.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Cliente.class, fetch = FetchType.EAGER)
     Cliente cliente;
 
     @Builder

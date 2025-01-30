@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
-@Data @Builder
+@Getter @Setter @Builder
 @Entity
 public class Producto {
     @Id
