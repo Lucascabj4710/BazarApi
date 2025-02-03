@@ -133,12 +133,24 @@ public class VentaService implements IVentaService {
     @Override
     public ResponseEntity<?> updateVenta(VentaDto ventaDto, Long id) {
         try {
+            List<Producto> productoList = new ArrayList<>();
+            double total =0;
             Optional<Venta> ventaBuscada = ventasRepository.findById(id);
             if(ventaBuscada.isPresent()) {
                 logger.info(ventaEncontrada);
+
+                for (ProductoDto productoDto : ventaDto.getListaProductos()) {
+
+                    Producto producto = productoRepository.findById(productoDto.getId()).orElse(null);
+                    productoList.add(producto);
+
+                    total = total + (producto.getCosto() * productoDto.getCantidad());
+
+                }
+
                 ventaBuscada.get().setFechaVenta(ventaDto.getFecha_venta());
-                //ventaBuscada.get().setProductos();
-                ventaBuscada.get().setTotal(100);
+                ventaBuscada.get().setProductos(productoList);
+                ventaBuscada.get().setTotal(total);
                 ventaBuscada.get().setCliente(ventaDto.getCliente());
 
                 ventasRepository.save(ventaBuscada.get());
