@@ -59,10 +59,10 @@ public class ProductoService implements IProductoService {
 
 				return new ResponseEntity<ProductoDtoRequest>(producto, HttpStatus.OK);
 			} else {
-				return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("No existe un producto con ese ID", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error al obtener el producto", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class ProductoService implements IProductoService {
 		try {
 			productRepository.save(producto1);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Error al recuperar los productos", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error al dar de alta el producto", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<Producto>(producto1, HttpStatus.OK);
 	}
@@ -110,8 +110,7 @@ public class ProductoService implements IProductoService {
 			if(productoBuscado.isPresent()) {
 				log.info("Producto encontrado");
 				Producto productoActualizado = productoBuscado.get();
-				
-				log.info("Hola mundo" + productoActualizado.getCodigoProducto());
+
 				productoBuscado.get().setNombre(producto.getNombre());
 				productoBuscado.get().setMarca(producto.getMarca());
 				productoBuscado.get().setCosto(producto.getCosto());			
@@ -121,11 +120,11 @@ public class ProductoService implements IProductoService {
 				productRepository.save(productoBuscado.get());
 				return new ResponseEntity<String>("Producto actualizado con exito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<String>("Error al editar producto", HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("Error al actualizar producto", HttpStatus.NOT_FOUND);
 			}
 		} catch (DataAccessException e) {
-			log.error("Error al editar producto en la base de datos");
-			return new ResponseEntity<String>("Error al editar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("Error al actualizar producto en la base de datos");
+			return new ResponseEntity<String>("Error al actualizar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
 		}			
 	}
 

@@ -54,7 +54,7 @@ public class ClienteService implements IClienteService {
 		} catch (DataAccessException e) {
 			log.error("Error al recuperar los clientes");
 			log.error(e.getMessage());
-			return new ResponseEntity<String>("Cliente creado con exito", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error al obtener clientes", HttpStatus.INTERNAL_SERVER_ERROR);
 		}				
 	}
 
@@ -103,12 +103,14 @@ public class ClienteService implements IClienteService {
 			Optional<Cliente> clienteBuscado = clienteRepository.findById(id);
 			if(clienteBuscado.isPresent()) {
 				log.info("Cliente encontrado");
+
 				clienteBuscado.get().setNombre(cliente.getNombre());
 				clienteBuscado.get().setDni(cliente.getDni());
 				clienteBuscado.get().setApellido(cliente.getApellido());
-				
+
+
 				clienteRepository.save(clienteBuscado.get());
-				return new ResponseEntity<String>("Cliente eliminado con exito", HttpStatus.OK);
+				return new ResponseEntity<String>("Cliente actualizado con exito", HttpStatus.OK);
 			} else {
 				log.error("Cliente no encontrado");
 				return new ResponseEntity<String>("Error no existe cliente con ese ID", HttpStatus.NOT_FOUND);

@@ -65,7 +65,7 @@ public class VentaService implements IVentaService {
             ventasRepository.save(venta);
             return new ResponseEntity<>(venta, HttpStatus.CREATED);
          } else {
-            // Si el cliente no existe, maneja el error o lógica de creación
+
             logger.info("Cliente no encontrado");
             return new ResponseEntity<>("Error", HttpStatus.NO_CONTENT);
         }
@@ -107,7 +107,7 @@ public class VentaService implements IVentaService {
         } catch (DataAccessException e) {
             logger.error("Error al recuperar la venta");
             logger.error(e.getMessage());
-            return new ResponseEntity<>("No se pudo recuperar la venta", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error, No se pudo recuperar la venta", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -118,7 +118,7 @@ public class VentaService implements IVentaService {
             if(ventaBuscada.isPresent()) {
                 logger.info(ventaEncontrada);
                 ventasRepository.deleteById(id);
-                return new ResponseEntity<>("Cliente eliminado con exito", HttpStatus.OK);
+                return new ResponseEntity<>("Venta eliminada con exito", HttpStatus.OK);
             } else {
                 logger.error("Venta no encontrada");
                 return new ResponseEntity<>("Error no existe una venta con ese ID", HttpStatus.NOT_FOUND);
